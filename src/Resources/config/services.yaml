@@ -1,0 +1,9 @@
+services:
+  _defaults:
+    autoconfigure: true
+    public: false
+    autowire: true
+
+  Rinsvent\ResponseBundle\EventListener\ResponseListener:
+    tags:
+      - { name: kernel.event_listener, event: kernel.response }

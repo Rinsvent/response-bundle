@@ -1,0 +1,36 @@
+{
+    "name": "rinsvent/request-bundle",
+    "description": "Request bundle",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.0",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "ext-json": "*",
+        "symfony/validator": "^5.3",
+        "symfony/cache": "^5.3",
+        "symfony/string": "^5.3",
+        "rinsvent/attribute-extractor": "^0.0",
+        "rinsvent/data2dto": "^0.0",
+        "doctrine/annotations": "^1.13"
+    },
+    "require-dev": {
+        "codeception/codeception": "^4.1",
+        "codeception/module-phpbrowser": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0",
+        "symfony/http-kernel": "^5.3",
+        "symfony/http-foundation": "^5.3",
+        "symfony/routing": "^5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "tests\\": "tests/",
+            "Rinsvent\\ResponseBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rinsvent\\ResponseBundle\\Tests\\": "tests/"
+        }
+    }
+}
