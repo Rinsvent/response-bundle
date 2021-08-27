@@ -1,6 +1,6 @@
 {
-    "name": "rinsvent/request-bundle",
-    "description": "Request bundle",
+    "name": "rinsvent/response-bundle",
+    "description": "Response bundle",
     "license": "proprietary",
     "require": {
         "php": "^8.0",
@@ -11,7 +11,7 @@
         "symfony/cache": "^5.3",
         "symfony/string": "^5.3",
         "rinsvent/attribute-extractor": "^0.0",
-        "rinsvent/data2dto": "^0.0",
+        "rinsvent/dto2data": "^0.0",
         "doctrine/annotations": "^1.13"
     },
     "require-dev": {

@@ -2,9 +2,9 @@
 
 namespace Rinsvent\ResponseBundle\EventListener;
 
-
-use App\Response\JsonResponse;
-use App\Serializer\EntitySchemaSerializer;
+use Rinsvent\DTO2Data\Dto2DataConverter;
+use Rinsvent\ResponseBundle\Response\JsonResponse;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class ResponseListener
 {
@@ -19,16 +19,15 @@ class ResponseListener
             return;
         }
 
-        $request = $event->getRequest();
-        $data = $response->getData();
-        if ($response->getSchema()) {
-            // $data = $this->entitySchemaSerializer->serializeBySchema($data, $response->getSchema());
+        $data = $response->getRawData();
+
+        if (!is_object($data)) {
+            $response->setData($data);
+            return;
         }
 
-        if ($resultKey = $request->get('_result_key')) {
-            $data = [$resultKey => $data];
-        }
-
+        $dto2dataConverter = new Dto2DataConverter();
+        $data = $dto2dataConverter->convert($data);
         $response->setData($data);
     }
 }

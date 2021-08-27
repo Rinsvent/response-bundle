@@ -4,14 +4,16 @@ namespace Rinsvent\ResponseBundle\Response;
 
 class JsonResponse extends \Symfony\Component\HttpFoundation\JsonResponse
 {
-  public function __construct($data = null, int $status = 200, array $headers = [], bool $json = false)
-  {
-    parent::__construct(null, $status, $headers, $json);
-    $this->data = $data;
-  }
+    protected $rawData;
 
-  public function getData()
-  {
-    return $this->data;
-  }
+    public function __construct($data = null, int $status = 200, array $headers = [], bool $json = false)
+    {
+        parent::__construct(null, $status, $headers, $json);
+        $this->rawData = $data;
+    }
+
+    public function getRawData()
+    {
+        return $this->rawData;
+    }
 }
