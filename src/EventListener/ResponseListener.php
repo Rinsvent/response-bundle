@@ -21,7 +21,7 @@ class ResponseListener
 
         $data = $response->getRawData();
 
-        if (!is_object($data)) {
+        if (!is_object($data) && !is_iterable($data)) {
             $response->setData($data);
             return;
         }
