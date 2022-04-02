@@ -2,7 +2,9 @@
 
 namespace Rinsvent\ResponseBundle\EventListener;
 
+use Rinsvent\AttributeExtractor\MethodExtractor;
 use Rinsvent\DTO2Data\Dto2DataConverter;
+use Rinsvent\ResponseBundle\Attribute\ResponseSchema;
 use Rinsvent\ResponseBundle\Response\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
@@ -27,7 +29,32 @@ class ResponseListener
         }
 
         $dto2dataConverter = new Dto2DataConverter();
-        $data = $dto2dataConverter->convert($data);
+        $schema = $this->grabSchema($event);
+        $data = $dto2dataConverter->convert($data, $schema);
         $response->setData($data);
+    }
+
+    private function grabSchema(ResponseEvent $event): string
+    {
+        $request = $event->getRequest();
+        $controller = $request->get('_controller');
+        if (is_string($controller)) {
+            $controller = explode('::', $controller);
+        }
+        if (is_callable($controller)) {
+            if (is_object($controller[0])) {
+                $controller[0] = get_class($controller[0]);
+            }
+        }
+        if (!is_array($controller) || !count($controller) === 2) {
+            throw new \InvalidArgumentException('Response schema not found');
+        }
+        $methodExtractor = new MethodExtractor($controller[0], $controller[1]);
+
+        /** @var ResponseSchema $responseSchema */
+        while ($responseSchema = $methodExtractor->fetch(ResponseSchema::class)) {
+            return $responseSchema->schemaClass;
+        }
+        throw new \InvalidArgumentException('Response schema not found');
     }
 }
