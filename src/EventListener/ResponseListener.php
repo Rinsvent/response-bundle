@@ -28,6 +28,11 @@ class ResponseListener
             return;
         }
 
+        if (is_iterable($data) && 0 === count($data)) {
+            $response->setData($data);
+            return;
+        }
+
         $dto2dataConverter = new Dto2DataConverter();
         $schema = $this->grabSchema($event);
         $data = $dto2dataConverter->convert($data, $schema);
